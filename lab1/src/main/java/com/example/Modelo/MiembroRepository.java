@@ -61,7 +61,7 @@ public class MiembroRepository implements Repository<Miembro>{
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
-                Miembro miembro = new Miembro(partes[0], Integer.parseInt(partes[1]) );
+                Miembro miembro = new Miembro(partes[0], Integer.parseInt(partes[1]), null );
                 miembros.add(miembro);
             }
         } catch (IOException e) {

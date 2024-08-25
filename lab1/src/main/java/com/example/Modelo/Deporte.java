@@ -40,6 +40,7 @@ public class Deporte {
     }
     public void addMiembro(Miembro miembro) {
         miembros.add(miembro);
+        
     }
     public List<Miembro> getMiembros() {
         return miembros;

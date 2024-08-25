@@ -9,10 +9,10 @@ public class Miembro {
     private List<Deporte> deportes;
 
 
-    public Miembro(String nombre, int edad) {
+    public Miembro(String nombre, int edad,List<Deporte> deportes) {
         this.nombre = nombre;
         this.edad = edad;
-        this.deportes = new ArrayList<>();
+        this.deportes = deportes;
     }
 
     public String getNombre() {
@@ -38,4 +38,5 @@ public class Miembro {
     public List<Deporte> getDeportes() {
         return deportes;
     }
+    
 }
