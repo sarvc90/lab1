@@ -10,8 +10,7 @@ import java.util.List;
 
 public class DeporteRepository implements Repository<Deporte> {
     private List<Deporte> deportes;
-    private static final String ARCHIVO_DEPORTES = "C:\\Users\\Sara\\Downloads\\lab1\\lab1\\deportes.txt";
-
+    private static final String ARCHIVO_DEPORTES = "C:\\Users\\Sara\\Documents\\GitHub\\lab1\\lab1\\deportes.txt";
     public DeporteRepository() {
         this.deportes = new ArrayList<Deporte>();
         cargarDesdeArchivo();

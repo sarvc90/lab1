@@ -1,5 +1,7 @@
 package com.example.controllers;
 
+import java.io.FileWriter;
+
 import com.example.Modelo.Club;
 import com.example.Modelo.Deporte;
 import com.example.Modelo.Dificultad;
@@ -31,69 +33,70 @@ public class DeporteController {
     @FXML
     private Button agregarMiembroButton;
     @FXML
-    private ListView<String> deportesListView;
+    private TextField eliminarNombreTextField;
     @FXML
-    private ListView<String> miembrosListView;
+    private Button eliminarDeporteButton;
+    @FXML
+    private TextField actualizarNombreTextField;
+    @FXML
+    private Button actualizarDeporteButton;
 
     private Club club;
-    private ObservableList<String> deportes;
-    private ObservableList<String> miembros;
+
 
     @FXML
     public void initialize() {
         dificultadComboBox.getItems().addAll("BAJO", "MEDIO", "ALTO");
         club = new Club("Mi Club");
-        deportes = FXCollections.observableArrayList();
-        miembros = FXCollections.observableArrayList();
 
-        deportesListView.setItems(deportes);
-        miembrosListView.setItems(miembros);
     }
 
-    @FXML
-    public void agregarDeporte() {
-        String nombre = nombreTextField.getText();
-        String descripcion = descripcionTextField.getText();
-        String dificultadStr = dificultadComboBox.getSelectionModel().getSelectedItem();
-        Dificultad dificultad = Dificultad.valueOf(dificultadStr);
-    
-        if (nombre.isEmpty() || descripcion.isEmpty()) {
-            // Mostrar un mensaje de error si los campos están vacíos
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al crear deporte");
-            alert.setContentText("Los campos de nombre y descripción no pueden estar vacíos.");
-            alert.showAndWait();
-            return;
-        }
-    
-        try {
-            Deporte deporte = new Deporte(nombre, descripcion, dificultad);
-            club.crearDeporte(deporte);
-    
-            // Limpia los campos
-            nombreTextField.clear();
-            descripcionTextField.clear();
-            dificultadComboBox.getSelectionModel().clearSelection();
-    
-            // Actualiza la lista de deportes
-            deportes.add(deporte.getNombre());
-    
-            // Muestra un mensaje de confirmación
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Deporte creado");
-            alert.setHeaderText("Deporte creado con éxito");
-            alert.setContentText("El deporte " + deporte.getNombre() + " ha sido creado con éxito.");
-            alert.showAndWait();
-        } catch (Exception e) {
-            // Mostrar un mensaje de error si ocurre un error al crear el deporte
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al crear deporte");
-            alert.setContentText("Ocurrió un error al crear el deporte: " + e.getMessage());
-            alert.showAndWait();
-        }
+@FXML
+public void agregarDeporte() {
+    String nombre = nombreTextField.getText();
+    String descripcion = descripcionTextField.getText();
+    String dificultadStr = dificultadComboBox.getSelectionModel().getSelectedItem();
+    Dificultad dificultad = Dificultad.valueOf(dificultadStr);
+
+    if (nombre.isEmpty() || descripcion.isEmpty()) {
+        // Mostrar un mensaje de error si los campos están vacíos
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al crear deporte");
+        alert.setContentText("Los campos de nombre y descripción no pueden estar vacíos.");
+        alert.showAndWait();
+        return;
     }
+
+    try {
+        Deporte deporte = new Deporte(nombre, descripcion, dificultad);
+        club.crearDeporte(deporte);
+
+        // Guardar la información en un archivo de texto
+        FileWriter writer = new FileWriter("deportes.txt", true);
+        writer.write(deporte.getNombre() + "," + deporte.getDescripcion() + "," + deporte.getNivelDificultad() + "\n");
+        writer.close();
+
+        // Limpia los campos
+        nombreTextField.clear();
+        descripcionTextField.clear();
+        dificultadComboBox.getSelectionModel().clearSelection();
+
+        // Muestra un mensaje de confirmación
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Deporte creado");
+        alert.setHeaderText("Deporte creado con éxito");
+        alert.setContentText("El deporte " + deporte.getNombre() + " ha sido creado con éxito.");
+        alert.showAndWait();
+    } catch (Exception e) {
+        // Mostrar un mensaje de error si ocurre un error al crear el deporte
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al crear deporte");
+        alert.setContentText("Ocurrió un error al crear el deporte: " + e.getMessage());
+        alert.showAndWait();
+    }
+}
 
     @FXML
     public void agregarMiembro() {
@@ -120,8 +123,7 @@ public class DeporteController {
             descripcionTextField.clear();
             dificultadComboBox.getSelectionModel().clearSelection();
     
-            // Actualiza la lista de deportes
-            deportes.remove(deporte.getNombre());
+
     
             // Muestra un mensaje de confirmación
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -138,5 +140,10 @@ public class DeporteController {
             alert.showAndWait();
         }
 
+    }
+
+    @FXML
+    public void actualizarDeporte() {
+        // Dejar vacío por ahora
     }
 }

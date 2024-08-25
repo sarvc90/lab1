@@ -18,13 +18,11 @@
         <TextField fx:id="nombreMiembroTextField" promptText="Nombre" />
         <TextField fx:id="edadMiembroTextField" promptText="Edad" />
         <Button fx:id="agregarMiembroButton" onAction="#agregarMiembro" text="Agregar Miembro" />
-        <ListView fx:id="deportesListView" prefWidth="248.0" />
-        <ListView fx:id="miembrosListView" prefHeight="0.0" prefWidth="248.0" />
         <Label text="Eliminar Deporte" />
-        <TextField fx:id="nombreTextField" promptText="Nombre" />
+        <TextField fx:id="eliminarNombreTextField" promptText="Nombre" />
         <Button fx:id="eliminarDeporteButton" onAction="#eliminarDeporte" text="Eliminar Deporte" />
         <Label text="Actualizar Deporte" />
-        <TextField fx:id="nombreTextField" promptText="Nombre" />
+        <TextField fx:id="actualizarNombreTextField" promptText="Nombre" />
         <Button fx:id="actualizarDeporteButton" onAction="#actualizarDeporte" text="Actualizar Deporte" />
     </children>
 </VBox>
