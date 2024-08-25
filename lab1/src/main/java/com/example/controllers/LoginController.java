@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controllers;
 import com.example.Modelo.Administrador;
 import com.example.Modelo.AdministradorRepository;
 

@@ -71,7 +71,7 @@ public class DeporteRepository implements Repository<Deporte> {
     public void guardarEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_DEPORTES))) {
             for (Deporte deporte : deportes) {
-                writer.write(deporte.getNombre() + "," + deporte.getDescripcion());
+                writer.write(deporte.getNombre() + "," + deporte.getDescripcion() + "," + deporte.getNivelDificultad());
                 writer.newLine();
             }
         } catch (IOException e) {
