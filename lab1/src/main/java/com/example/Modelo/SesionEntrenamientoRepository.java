@@ -83,7 +83,7 @@ public class SesionEntrenamientoRepository implements Repository<SesionEntrenami
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
-                SesionEntrenamiento sesion = new SesionEntrenamiento(partes[0], Integer.parseInt(partes[1]), null, null, null);
+                SesionEntrenamiento sesion = new SesionEntrenamiento(partes[0], Integer.parseInt(partes[1]), null, null, null, null);
                 sesiones.add(sesion);
             }
         } catch (IOException e) {
@@ -94,11 +94,21 @@ public class SesionEntrenamientoRepository implements Repository<SesionEntrenami
     public void guardarEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_SESIONES))) {
             for (SesionEntrenamiento sesion : sesiones) {
-                writer.write(sesion.getFecha() + "," + sesion.getDuracion() + "," + sesion.getEstado() + "," + sesion.getDeporte() + "," + sesion.getEntrenador());
+                writer.write(sesion.getFecha() + "," + sesion.getDuracion() + "," + sesion.getEstado() + "," + sesion.getDeporte() + "," + sesion.getEntrenador() + sesion.getMiembros());
                 writer.newLine();
             }
         } catch (IOException e) {
             System.err.println("Error al guardar sesiones en archivo: " + e.getMessage());
+        }
+    }
+    
+    public void actualizarMiembrosASesion(String fecha, List<Miembro> miembros) {
+        SesionEntrenamiento sesion = obtenerPorNombre(fecha);
+        if (sesion != null) {
+            sesion.getMiembros().addAll(miembros);
+            guardarEnArchivo();
+        } else {
+            System.out.println("No existe una sesión de entrenamiento con la fecha especificada.");
         }
     }
 }
