@@ -9,7 +9,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.controllers.DeporteController">
     <children>
-        <Label text="Crear Deporte" />
+        <Label text="Deporte" />
         <TextField fx:id="nombreTextField" promptText="Nombre" />
         <TextField fx:id="descripcionTextField" promptText="Descripción" />
         <ComboBox fx:id="dificultadComboBox" promptText="Dificultad" />

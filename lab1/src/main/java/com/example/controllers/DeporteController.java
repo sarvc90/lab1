@@ -144,6 +144,44 @@ public void agregarDeporte() {
 
     @FXML
     public void actualizarDeporte() {
-        // Dejar vacío por ahora
+        String nombre = nombreTextField.getText();
+        String descripcion = descripcionTextField.getText();
+        String dificultadStr = dificultadComboBox.getSelectionModel().getSelectedItem();
+        Dificultad dificultad = Dificultad.valueOf(dificultadStr);
+        if (nombre.isEmpty() ) {
+            // Mostrar un mensaje de error si el campo está vacíos
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al actualizar deporte");
+            alert.setContentText("El campo de nombre no puede estar vacío.");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Deporte deporte = new Deporte(nombre, descripcion, dificultad);
+            club.actualizarDeporte(deporte);
+    
+            // Limpia los campos
+            nombreTextField.clear();
+            descripcionTextField.clear();
+            dificultadComboBox.getSelectionModel().clearSelection();
+    
+        
+    
+            // Muestra un mensaje de confirmación
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deporte actualizado");
+            alert.setHeaderText("Deporte actualizado con éxito");
+            alert.setContentText("El deporte " + deporte.getNombre() + " ha sido actualizado con éxito.");
+            alert.showAndWait();
+        } catch (Exception e) {
+            // Mostrar un mensaje de error si ocurre un error al crear el deporte
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al actualizar deporte");
+            alert.setContentText("Ocurrió un error al actualizar el deporte: " + e.getMessage());
+            alert.showAndWait();
+        }
+
     }
 }
