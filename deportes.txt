@@ -1,3 +1,5 @@
 edfsd,hdfhg,BAJO
 vvc,bbvfc,MEDIO
 vvc,bbvfc,MEDIO
+futbol,bola,BAJO
+futbol,bola,BAJO

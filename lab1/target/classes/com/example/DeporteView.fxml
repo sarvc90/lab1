@@ -14,15 +14,11 @@
         <TextField fx:id="descripcionTextField" promptText="Descripción" />
         <ComboBox fx:id="dificultadComboBox" promptText="Dificultad" />
         <Button fx:id="agregarDeporteButton" onAction="#agregarDeporte" text="Agregar Deporte" />
-        <Label text="Crear Miembro" />
-        <TextField fx:id="nombreMiembroTextField" promptText="Nombre" />
-        <TextField fx:id="edadMiembroTextField" promptText="Edad" />
         <Button fx:id="agregarMiembroButton" onAction="#agregarMiembro" text="Agregar Miembro" />
-        <Label text="Eliminar Deporte" />
-        <TextField fx:id="eliminarNombreTextField" promptText="Nombre" />
         <Button fx:id="eliminarDeporteButton" onAction="#eliminarDeporte" text="Eliminar Deporte" />
-        <Label text="Actualizar Deporte" />
-        <TextField fx:id="actualizarNombreTextField" promptText="Nombre" />
         <Button fx:id="actualizarDeporteButton" onAction="#actualizarDeporte" text="Actualizar Deporte" />
+        <Label text="Crear Miembro" />
+
+
     </children>
 </VBox>
