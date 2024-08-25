@@ -6,6 +6,7 @@ public class SesionEntrenamiento {
     private Estado estado;
     private Deporte deporte;
     private Entrenador entrenador;
+    
 
     public SesionEntrenamiento(String fecha, int duracion, Estado estado, Deporte deporte, Entrenador entrenador) {
         this.fecha = fecha;
