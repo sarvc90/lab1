@@ -4,3 +4,6 @@ vvc,bbvfc,MEDIO
 futbol,bola,BAJO
 futbol,bola,BAJO
 tenis,bola pequeña,BAJO
+Futbol,Bola grande,ALTO
+Futbol,v,BAJO
+baloncesto,balon,BAJO

@@ -1,1 +1,3 @@
-tenis,bola mediana,MEDIO
+tenis,bola grande,null
+Futbol,bola grande,null
+baloncesto,balon,BAJO
