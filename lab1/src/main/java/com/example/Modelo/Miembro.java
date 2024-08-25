@@ -6,15 +6,17 @@ import java.util.List;
 public class Miembro {
     private String nombre;
     private int edad;
-    private List<Deporte> deportes;
+    private Deporte deporte;
 
 
-    public Miembro(String nombre, int edad,List<Deporte> deportes) {
+    public Miembro(String nombre, int edad,Deporte deporte) {
         this.nombre = nombre;
         this.edad = edad;
-        this.deportes = deportes;
+        this.deporte = deporte;
     }
-
+    public Deporte getDeporte(){
+        return deporte;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -27,16 +29,10 @@ public class Miembro {
         return edad >= 18;
     }
 
-    public void addDeporte(Deporte deporte) {
-        deportes.add(deporte);
-    }
-
-    public void removeDeporte(Deporte deporte) {
-        deportes.remove(deporte);
+    
+    public void setDeporte(Deporte deporte) {
+        this.deporte = deporte;
     }
     
-    public List<Deporte> getDeportes() {
-        return deportes;
-    }
     
 }

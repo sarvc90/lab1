@@ -9,7 +9,7 @@ import java.io.IOException;
 public class AdministradorRepository{
     private static AdministradorRepository instancia;
     private Administrador admin;
-    private static final String ADMIN_DEPORTES = "C:\\Users\\Sara\\Downloads\\lab1\\lab1\\admin.txt";
+    private static final String ADMIN_DEPORTES = "C:\\Users\\Sara\\Documents\\GitHub\\lab1\\lab1\\admin.txt";
 
 
     public AdministradorRepository() {

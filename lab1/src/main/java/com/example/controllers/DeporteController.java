@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import java.io.FileWriter;
+import java.util.List;
 
 import com.example.Modelo.Club;
 import com.example.Modelo.Deporte;
@@ -13,8 +14,10 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 
 public class DeporteController {
 
@@ -40,7 +43,10 @@ public class DeporteController {
     private TextField actualizarNombreTextField;
     @FXML
     private Button actualizarDeporteButton;
+    @FXML
+    private ComboBox<Deporte> deporteComboBox;
 
+    private ObservableList<Deporte> deportes = FXCollections.observableArrayList();
     private Club club;
 
 
@@ -48,9 +54,34 @@ public class DeporteController {
     public void initialize() {
         dificultadComboBox.getItems().addAll("BAJO", "MEDIO", "ALTO");
         club = new Club("Mi Club");
+        deporteComboBox.setItems(deportes);
+        cargarDeportes();
 
     }
-
+    private void cargarDeportes() {
+        deportes.clear();
+        List<Deporte> deportesList = club.obtenerDeportes();
+        for (Deporte deporte : deportesList) {
+            deportes.add(deporte);
+        }
+        deporteComboBox.setCellFactory((Callback<ListView<Deporte>, ListCell<Deporte>>) new Callback<ListView<Deporte>, ListCell<Deporte>>() {
+            @Override
+            public ListCell<Deporte> call(ListView<Deporte> p) {
+                return new ListCell<Deporte>() {
+                    @Override
+                    protected void updateItem(Deporte item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.getNombre());
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+            }
+        });
+        deporteComboBox.setItems(deportes);
+    }
 @FXML
 public void agregarDeporte() {
     String nombre = nombreTextField.getText();
@@ -98,10 +129,35 @@ public void agregarDeporte() {
     }
 }
 
-    @FXML
-    public void agregarMiembro() {
-        // Dejar vacío por ahora
+@FXML
+public void agregarMiembro() {
+    String nombre = nombreMiembroTextField.getText();
+    int edad = Integer.parseInt(edadMiembroTextField.getText());
+    Deporte deporte = deporteComboBox.getSelectionModel().getSelectedItem();
+    if (deporte == null) {
+        // Mostrar un mensaje de error si no se ha seleccionado un deporte
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al agregar miembro");
+        alert.setContentText("Debe seleccionar un deporte.");
+        alert.showAndWait();
+        return;
     }
+    Miembro miembro = new Miembro(nombre, edad, deporte);
+    club.inscribirMiembro(miembro, deporte);
+    
+    // Limpia los campos
+    nombreMiembroTextField.clear();
+    edadMiembroTextField.clear();
+    deporteComboBox.getSelectionModel().clearSelection();
+    
+    // Muestra un mensaje de confirmación
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Miembro agregado");
+    alert.setHeaderText("Miembro agregado con éxito");
+    alert.setContentText("El miembro " + miembro.getNombre() + " ha sido agregado con éxito al deporte " + deporte.getNombre());
+    alert.showAndWait();
+}
     @FXML
     public void eliminarDeporte() {
         String nombre = nombreTextField.getText();

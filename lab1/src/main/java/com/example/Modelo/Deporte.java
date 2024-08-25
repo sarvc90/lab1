@@ -40,7 +40,7 @@ public class Deporte {
     }
     public void addMiembro(Miembro miembro) {
         miembros.add(miembro);
-        
+        miembro.setDeporte(this); // Agregamos esta línea para actualizar el deporte del miembro
     }
     public List<Miembro> getMiembros() {
         return miembros;
@@ -52,11 +52,9 @@ public class Deporte {
     public void fetchMiembrosAndEntrenadores(Club club) {
 
         for (Miembro miembro : club.obtenerMiembros()) {
-            for (Deporte deporte : miembro.getDeportes()) { 
-                if (deporte.equals(this)) {
-                    this.miembros.add(miembro);
-                    break; 
-                }
+
+            if (miembro.getDeporte().equals(this)) {
+                this.miembros.add(miembro);
             }
         }
     

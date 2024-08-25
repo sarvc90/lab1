@@ -1,3 +1,4 @@
 tenis,bola grande,null
 Futbol,bola grande,null
-baloncesto,balon,BAJO
+baloncesto,balon,null
+Danza,bailar,MEDIO

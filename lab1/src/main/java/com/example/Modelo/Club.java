@@ -34,14 +34,16 @@ public class Club {
 
     public void inscribirMiembro(Miembro miembro, Deporte deporte) {
         if (miembro.siEsAdulto()) {
-            miembroRepository.crear(miembro);
+            miembro.setDeporte(deporte); // Agregamos esta línea para actualizar el miembro con el deporte seleccionado
+            miembroRepository.actualizar(miembro);
             deporte.addMiembro(miembro);
-            miembro.addDeporte(deporte);
+    
         } else {
             if (deporte.getNivelDificultad() == Dificultad.BAJO || deporte.getNivelDificultad() == Dificultad.MEDIO) {
-                miembroRepository.crear(miembro);
+                miembro.setDeporte(deporte); // Agregamos esta línea para actualizar el miembro con el deporte seleccionado
+                miembroRepository.actualizar(miembro);
                 deporte.addMiembro(miembro);
-                miembro.addDeporte(deporte);
+     
             } else {
                 System.out.println("No se puede inscribir a este deporte porque es de alto riesgo y el miembro no es adulto.");
             }
