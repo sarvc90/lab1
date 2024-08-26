@@ -45,7 +45,8 @@ public class DeporteController {
     private Button actualizarDeporteButton;
     @FXML
     private ComboBox<Deporte> deporteComboBox;
-
+    @FXML
+    private ListView<Deporte> deportesListView;
     private ObservableList<Deporte> deportes = FXCollections.observableArrayList();
     private Club club;
 
@@ -61,6 +62,24 @@ public class DeporteController {
     private void cargarDeportes() {
         deportes.clear();
         List<Deporte> deportesList = club.obtenerDeportes();
+        deportesListView.getItems().clear();
+        deportesListView.setCellFactory(new Callback<ListView<Deporte>, ListCell<Deporte>>() {
+            @Override
+            public ListCell<Deporte> call(ListView<Deporte> p) {
+                return new ListCell<Deporte>() {
+                    @Override
+                    protected void updateItem(Deporte item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.getNombre());
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+            }
+        });
+        deportesListView.getItems().addAll(deportesList);
         for (Deporte deporte : deportesList) {
             deportes.add(deporte);
         }

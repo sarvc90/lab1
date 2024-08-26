@@ -1,4 +1,5 @@
-tenis,bola grande
-Futbol,bola grande
-baloncesto,balon
-Danza,bailar,MEDIO
+tenis,bola grande,null
+Futbol,bola grande,null
+baloncesto,balon,null
+Danza,bailar,null
+Equitacion,caballos 1,MEDIO

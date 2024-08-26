@@ -17,6 +17,7 @@
         <Button fx:id="agregarDeporteButton" onAction="#agregarDeporte" text="Agregar Deporte" style="-fx-text-fill: #000000; -fx-font-size: 18px;" />
         <Button fx:id="eliminarDeporteButton" onAction="#eliminarDeporte" text="Eliminar Deporte" style="-fx-text-fill: #000000; -fx-font-size: 18px;" />
         <Button fx:id="actualizarDeporteButton" onAction="#actualizarDeporte" text="Actualizar Deporte" style="-fx-text-fill: #000000; -fx-font-size: 18px;" />
+        <ListView fx:id="deportesListView" prefHeight="200.0" prefWidth="200.0" />
         <Label text="Agregar Miembro" style="-fx-text-fill: #FFFFFF; -fx-font-size: 24px;" />
         <TextField fx:id="nombreMiembroTextField" promptText="Nombre" style="-fx-text-fill: #000000; -fx-font-size: 18px;" />
         <TextField fx:id="edadMiembroTextField" promptText="Edad" style="-fx-text-fill: #000000; -fx-font-size: 18px;" />

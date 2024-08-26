@@ -8,3 +8,4 @@ Futbol,Bola grande,ALTO
 Futbol,v,BAJO
 baloncesto,balon,BAJO
 Danza,bailar,MEDIO
+Equitacion,caballos,MEDIO
