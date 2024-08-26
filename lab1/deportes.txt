@@ -1,4 +1,4 @@
-tenis,bola grande,null
-Futbol,bola grande,null
-baloncesto,balon,null
+tenis,bola grande
+Futbol,bola grande
+baloncesto,balon
 Danza,bailar,MEDIO

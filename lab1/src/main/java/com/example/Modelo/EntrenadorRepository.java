@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EntrenadorRepository implements Repository<Entrenador> {
     private List<Entrenador> entrenadores;
-    private static final String ARCHIVO_ENTRENADORES = "C:\\Users\\Sara\\Downloads\\lab1\\lab1\\entrenadores.txt";
+    private static final String ARCHIVO_ENTRENADORES = "C:\\Users\\sccva\\OneDrive\\Documentos\\GitHub\\lab1\\lab1\\entrenadores.txt";
 
     public EntrenadorRepository(){
         this.entrenadores = new ArrayList<Entrenador>();

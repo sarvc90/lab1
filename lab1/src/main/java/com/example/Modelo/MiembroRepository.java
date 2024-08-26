@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MiembroRepository implements Repository<Miembro>{
     private List<Miembro> miembros;
-    private static final String ARCHIVO_MIEMBROS = "C:\\Users\\Sara\\Downloads\\lab1\\lab1\\miembros.txt";
+    private static final String ARCHIVO_MIEMBROS = "C:\\Users\\sccva\\OneDrive\\Documentos\\GitHub\\lab1\\lab1\\miembros.txt";
 
     public MiembroRepository() {
         this.miembros = new ArrayList<Miembro>();

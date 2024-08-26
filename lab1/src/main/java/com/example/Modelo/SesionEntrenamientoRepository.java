@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SesionEntrenamientoRepository implements Repository<SesionEntrenamiento> {
     private List<SesionEntrenamiento> sesiones;
-    private static final String ARCHIVO_SESIONES = "C:\\Users\\Sara\\Downloads\\lab1\\lab1\\sesiones.txt";
+    private static final String ARCHIVO_SESIONES = "C:\\Users\\sccva\\OneDrive\\Documentos\\GitHub\\lab1\\lab1\\sesiones.txt";
 
     public SesionEntrenamientoRepository() {
         this.sesiones = new ArrayList<SesionEntrenamiento>();
