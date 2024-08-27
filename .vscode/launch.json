@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.example/com.example.Main",
+            "projectName": "lab1"
+        },
+        {
+            "type": "java",
+            "name": "Launch JavaFX",
+            "request": "launch",
+            "mainClass": "com.example.Main",
+            "vmArgs": "--module-path C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.4.7-hotspot\\lib --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
