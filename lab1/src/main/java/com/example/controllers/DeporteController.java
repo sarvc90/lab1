@@ -55,6 +55,7 @@ public class DeporteController {
     @FXML
     private ListView<Miembro> miembrosListView;
 
+    private ObservableList<Miembro> miembros = FXCollections.observableArrayList();
     private ObservableList<Deporte> deportes = FXCollections.observableArrayList();
     private Club club;
 
@@ -65,6 +66,7 @@ public class DeporteController {
         club = new Club("Mi Club");
         deporteComboBox.setItems(deportes);
         cargarDeportes();
+        miembrosListView.setItems(miembros);
         miembrosListView.setPlaceholder(new Label("No hay miembros"));
 
     }
@@ -271,16 +273,28 @@ public class DeporteController {
             }
 
         }
+
+
+
+
+
+        @FXML
         private void cargarMiembros() {
-            miembrosListView.getItems().clear();
+            miembros.clear(); // Limpia la lista observable de miembros
             Deporte deporteSeleccionado = deporteComboBox.getSelectionModel().getSelectedItem();
+        
             if (deporteSeleccionado != null) {
                 try {
                     deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
-                    List<Miembro> miembros = deporteSeleccionado.getMiembros();
+                    List<Miembro> miembrosList = deporteSeleccionado.getMiembros();
+                    miembros.setAll(miembrosList); // Actualiza la lista observable
+                    
+                    // Configura la ListView con el contenido de la lista observable
+                    miembrosListView.setItems(miembros);
+        
                     miembrosListView.setCellFactory(new Callback<ListView<Miembro>, ListCell<Miembro>>() {
                         @Override
-                        public ListCell<Miembro> call(ListView<Miembro> param) {
+                        public ListCell<Miembro> call(ListView<Miembro> p) {
                             return new ListCell<Miembro>() {
                                 @Override
                                 protected void updateItem(Miembro item, boolean empty) {
@@ -294,7 +308,6 @@ public class DeporteController {
                             };
                         }
                     });
-                    miembrosListView.getItems().addAll(miembros);
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
@@ -303,7 +316,7 @@ public class DeporteController {
                     alert.showAndWait();
                 }
             } else {
-                miembrosListView.getItems().clear();
+                miembrosListView.setItems(FXCollections.observableArrayList()); // Limpia la lista si no hay deporte seleccionado
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("No se ha seleccionado un deporte");
@@ -311,9 +324,13 @@ public class DeporteController {
                 alert.showAndWait();
             }
         }
+        
+
+
         @FXML
         public void mostrarMiembros() {
             cargarMiembros();
+            
         }
  
 }
