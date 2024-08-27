@@ -52,10 +52,10 @@ public class Deporte {
     public void fetchMiembrosAndEntrenadores(Club club) {
 
         for (Miembro miembro : club.obtenerMiembros()) {
-
-            if (miembro.getDeporte().equals(this)) {
+            if (miembro.getDeporte() != null && miembro.getDeporte().equals(this)) {
                 this.miembros.add(miembro);
             }
+
         }
     
         for (Entrenador entrenador : club.obtenerEntrenadores()) {

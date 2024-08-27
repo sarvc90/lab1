@@ -9,3 +9,5 @@ Futbol,v,BAJO
 baloncesto,balon,BAJO
 Danza,bailar,MEDIO
 Equitacion,caballos,MEDIO
+Natacion,nadar,BAJO
+Futbol2,bolaa,BAJO

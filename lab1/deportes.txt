@@ -2,4 +2,6 @@ tenis,bola grande,null
 Futbol,bola grande,null
 baloncesto,balon,null
 Danza,bailar,null
-Equitacion,caballos 1,MEDIO
+Equitacion,caballos 1,null
+Natacion,nadar,null
+Futbol2,bolaa,BAJO
