@@ -59,7 +59,6 @@ public class DeporteController {
     private ObservableList<Deporte> deportes = FXCollections.observableArrayList();
     private Club club;
 
-
     @FXML
     public void initialize() {
         dificultadComboBox.getItems().addAll("BAJO", "MEDIO", "ALTO");
@@ -70,6 +69,7 @@ public class DeporteController {
         miembrosListView.setPlaceholder(new Label("No hay miembros"));
 
     }
+
     private void cargarDeportes() {
         deportes.clear();
         List<Deporte> deportesList = club.obtenerDeportes();
@@ -94,24 +94,26 @@ public class DeporteController {
         for (Deporte deporte : deportesList) {
             deportes.add(deporte);
         }
-        deporteComboBox.setCellFactory((Callback<ListView<Deporte>, ListCell<Deporte>>) new Callback<ListView<Deporte>, ListCell<Deporte>>() {
-            @Override
-            public ListCell<Deporte> call(ListView<Deporte> p) {
-                return new ListCell<Deporte>() {
+        deporteComboBox.setCellFactory(
+                (Callback<ListView<Deporte>, ListCell<Deporte>>) new Callback<ListView<Deporte>, ListCell<Deporte>>() {
                     @Override
-                    protected void updateItem(Deporte item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null) {
-                            setText(item.getNombre());
-                        } else {
-                            setText(null);
-                        }
+                    public ListCell<Deporte> call(ListView<Deporte> p) {
+                        return new ListCell<Deporte>() {
+                            @Override
+                            protected void updateItem(Deporte item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item != null) {
+                                    setText(item.getNombre());
+                                } else {
+                                    setText(null);
+                                }
+                            }
+                        };
                     }
-                };
-            }
-        });
+                });
         deporteComboBox.setItems(deportes);
     }
+
     @FXML
     public void agregarDeporte() {
         String nombre = nombreTextField.getText();
@@ -135,9 +137,10 @@ public class DeporteController {
 
             // Guardar la información en un archivo de texto
             FileWriter writer = new FileWriter("deportes.txt", true);
-            writer.write(deporte.getNombre() + "," + deporte.getDescripcion() + "," + deporte.getNivelDificultad() + "\n");
+            writer.write(
+                    deporte.getNombre() + "," + deporte.getDescripcion() + "," + deporte.getNivelDificultad() + "\n");
             writer.close();
-            
+
             cargarDeportes();
 
             // Limpia los campos
@@ -178,159 +181,162 @@ public class DeporteController {
         }
         Miembro miembro = new Miembro(nombre, edad, deporte);
         club.inscribirMiembro(miembro, deporte);
-        
+
         // Limpia los campos
         nombreMiembroTextField.clear();
         edadMiembroTextField.clear();
         deporteComboBox.getSelectionModel().clearSelection();
-        
+
         // Muestra un mensaje de confirmación
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Miembro agregado");
         alert.setHeaderText("Miembro agregado con éxito");
-        alert.setContentText("El miembro " + miembro.getNombre() + " ha sido agregado con éxito al deporte " + deporte.getNombre());
+        alert.setContentText(
+                "El miembro " + miembro.getNombre() + " ha sido agregado con éxito al deporte " + deporte.getNombre());
         alert.showAndWait();
     }
-        @FXML
-        public void eliminarDeporte() {
-            String nombre = nombreTextField.getText();
-            if (nombre.isEmpty() ) {
-                // Mostrar un mensaje de error si el campo está vacíos
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error al crear deporte");
-                alert.setContentText("El campo de nombre no puede estar vacío.");
-                alert.showAndWait();
-                return;
-            }
-            try {
-                Deporte deporte = new Deporte(nombre, null, null);
-                club.eliminarDeporte(deporte.getNombre());
-        
-                // Limpia los campos
-                nombreTextField.clear();
-                descripcionTextField.clear();
-                dificultadComboBox.getSelectionModel().clearSelection();
-        
-                cargarDeportes();
-        
-                // Muestra un mensaje de confirmación
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Deporte eliminado");
-                alert.setHeaderText("Deporte eliminado con éxito");
-                alert.setContentText("El deporte " + deporte.getNombre() + " ha sido eliminado con éxito.");
-                alert.showAndWait();
-            } catch (Exception e) {
-                // Mostrar un mensaje de error si ocurre un error al crear el deporte
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error al eliminar deporte");
-                alert.setContentText("Ocurrió un error al eliminar el deporte: " + e.getMessage());
-                alert.showAndWait();
-            }
 
+    @FXML
+    public void eliminarDeporte() {
+        String nombre = nombreTextField.getText();
+        if (nombre.isEmpty()) {
+            // Mostrar un mensaje de error si el campo está vacíos
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al crear deporte");
+            alert.setContentText("El campo de nombre no puede estar vacío.");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Deporte deporte = new Deporte(nombre, null, null);
+            club.eliminarDeporte(deporte.getNombre());
+
+            // Limpia los campos
+            nombreTextField.clear();
+            descripcionTextField.clear();
+            dificultadComboBox.getSelectionModel().clearSelection();
+
+            cargarDeportes();
+
+            // Muestra un mensaje de confirmación
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deporte eliminado");
+            alert.setHeaderText("Deporte eliminado con éxito");
+            alert.setContentText("El deporte " + deporte.getNombre() + " ha sido eliminado con éxito.");
+            alert.showAndWait();
+        } catch (Exception e) {
+            // Mostrar un mensaje de error si ocurre un error al crear el deporte
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al eliminar deporte");
+            alert.setContentText("Ocurrió un error al eliminar el deporte: " + e.getMessage());
+            alert.showAndWait();
         }
 
-        @FXML
-        public void actualizarDeporte() {
-            String nombre = nombreTextField.getText();
-            String descripcion = descripcionTextField.getText();
-            String dificultadStr = dificultadComboBox.getSelectionModel().getSelectedItem();
-            Dificultad dificultad = Dificultad.valueOf(dificultadStr);
-            if (nombre.isEmpty() ) {
-                // Mostrar un mensaje de error si el campo está vacíos
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error al actualizar deporte");
-                alert.setContentText("El campo de nombre no puede estar vacío.");
-                alert.showAndWait();
-                return;
-            }
-            try {
-                Deporte deporte = new Deporte(nombre, descripcion, dificultad);
-                club.actualizarDeporte(deporte);
-        
-                // Limpia los campos
-                nombreTextField.clear();
-                descripcionTextField.clear();
-                dificultadComboBox.getSelectionModel().clearSelection();
-        
-                cargarDeportes();
-        
-                // Muestra un mensaje de confirmación
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Deporte actualizado");
-                alert.setHeaderText("Deporte actualizado con éxito");
-                alert.setContentText("El deporte " + deporte.getNombre() + " ha sido actualizado con éxito.");
-                alert.showAndWait();
-            } catch (Exception e) {
-                // Mostrar un mensaje de error si ocurre un error al crear el deporte
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error al actualizar deporte");
-                alert.setContentText("Ocurrió un error al actualizar el deporte: " + e.getMessage());
-                alert.showAndWait();
-            }
+    }
 
+    @FXML
+    public void actualizarDeporte() {
+        String nombre = nombreTextField.getText();
+        String descripcion = descripcionTextField.getText();
+        String dificultadStr = dificultadComboBox.getSelectionModel().getSelectedItem();
+        Dificultad dificultad = Dificultad.valueOf(dificultadStr);
+        if (nombre.isEmpty()) {
+            // Mostrar un mensaje de error si el campo está vacíos
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al actualizar deporte");
+            alert.setContentText("El campo de nombre no puede estar vacío.");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            Deporte deporte = new Deporte(nombre, descripcion, dificultad);
+            club.actualizarDeporte(deporte);
+
+            // Limpia los campos
+            nombreTextField.clear();
+            descripcionTextField.clear();
+            dificultadComboBox.getSelectionModel().clearSelection();
+
+            cargarDeportes();
+
+            // Muestra un mensaje de confirmación
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Deporte actualizado");
+            alert.setHeaderText("Deporte actualizado con éxito");
+            alert.setContentText("El deporte " + deporte.getNombre() + " ha sido actualizado con éxito.");
+            alert.showAndWait();
+        } catch (Exception e) {
+            // Mostrar un mensaje de error si ocurre un error al crear el deporte
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al actualizar deporte");
+            alert.setContentText("Ocurrió un error al actualizar el deporte: " + e.getMessage());
+            alert.showAndWait();
         }
 
+    }
 
+    @FXML
+    private void cargarMiembros() {
+        miembros.clear(); // Limpia la lista observable de miembros
+        Deporte deporteSeleccionado = deporteComboBox.getSelectionModel().getSelectedItem();
+        System.out.println(deporteSeleccionado);
 
-
-
-        @FXML
-        private void cargarMiembros() {
-            miembros.clear(); // Limpia la lista observable de miembros
-            Deporte deporteSeleccionado = deporteComboBox.getSelectionModel().getSelectedItem();
-        
-            if (deporteSeleccionado != null) {
-                try {
-                    deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
-                    List<Miembro> miembrosList = deporteSeleccionado.getMiembros();
-                    miembros.setAll(miembrosList); // Actualiza la lista observable
-                    
-                    // Configura la ListView con el contenido de la lista observable
-                    miembrosListView.setItems(miembros);
-        
-                    miembrosListView.setCellFactory(new Callback<ListView<Miembro>, ListCell<Miembro>>() {
-                        @Override
-                        public ListCell<Miembro> call(ListView<Miembro> p) {
-                            return new ListCell<Miembro>() {
-                                @Override
-                                protected void updateItem(Miembro item, boolean empty) {
-                                    super.updateItem(item, empty);
-                                    if (item != null) {
-                                        setText(item.getNombre());
-                                    } else {
-                                        setText(null);
-                                    }
-                                }
-                            };
-                        }
-                    });
-                } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error al obtener miembros");
-                    alert.setContentText("Ocurrió un error al obtener los miembros del deporte: " + e.getMessage());
-                    alert.showAndWait();
+        if (deporteSeleccionado != null) {
+            try {
+                deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
+                List<Miembro> miembrosList = deporteSeleccionado.getMiembros();
+                System.out.println("Miembros del deporte " + deporteSeleccionado.getNombre() + ":");
+                System.out.println(miembrosList.size());
+                for (Miembro miembro : miembrosList) {
+                    System.out.println(miembro.getNombre());
                 }
-            } else {
-                miembrosListView.setItems(FXCollections.observableArrayList()); // Limpia la lista si no hay deporte seleccionado
+                miembros.setAll(miembrosList); // Actualiza la lista observable
+
+                // Configura la ListView con el contenido de la lista observable
+                miembrosListView.setItems(miembros);
+
+                miembrosListView.setCellFactory(new Callback<ListView<Miembro>, ListCell<Miembro>>() {
+                    @Override
+                    public ListCell<Miembro> call(ListView<Miembro> p) {
+                        return new ListCell<Miembro>() {
+                            @Override
+                            protected void updateItem(Miembro item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item != null) {
+                                    setText(item.getNombre());
+                                } else {
+                                    setText(null);
+                                }
+                            }
+                        };
+                    }
+                });
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("No se ha seleccionado un deporte");
-                alert.setContentText("Por favor, seleccione un deporte del combo box");
+                alert.setHeaderText("Error al obtener miembros");
+                alert.setContentText("Ocurrió un error al obtener los miembros del deporte: " + e.getMessage());
                 alert.showAndWait();
             }
+        } else {
+            miembrosListView.setItems(FXCollections.observableArrayList()); // Limpia la lista si no hay deporte
+                                                                            // seleccionado
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se ha seleccionado un deporte");
+            alert.setContentText("Por favor, seleccione un deporte del combo box");
+            alert.showAndWait();
         }
-        
+    }
 
+    @FXML
+    public void mostrarMiembros() {
+        cargarMiembros();
 
-        @FXML
-        public void mostrarMiembros() {
-            cargarMiembros();
-            
-        }
- 
+    }
+
 }

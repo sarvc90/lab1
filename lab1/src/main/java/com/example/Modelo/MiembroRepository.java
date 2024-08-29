@@ -72,7 +72,11 @@ public class MiembroRepository implements Repository<Miembro>{
     public void guardarEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_MIEMBROS))) {
             for (Miembro miembro : miembros) {
-                writer.write(miembro.getNombre() + "," + miembro.getEdad() + "," + miembro.getDeporte().getNombre());
+                if (miembro.getDeporte() != null) {
+                    writer.write(miembro.getNombre() + "," + miembro.getEdad() + "," + miembro.getDeporte().getNombre());
+                } else {
+                    writer.write(miembro.getNombre() + "," + miembro.getEdad() + ",null");
+                }
                 writer.newLine();
             }
         } catch (IOException e) {

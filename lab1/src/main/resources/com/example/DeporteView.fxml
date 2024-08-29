@@ -26,9 +26,9 @@
         <Button fx:id="mostrarMiembrosButton" onAction="#mostrarMiembros" text="Mostrar" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
         <ListView fx:id="miembrosListView" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
     </children>
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10" />
-    </padding>
+<padding>
+    <Insets top="10" right="10" bottom="10" left="10" />
+</padding>
     <spacing>
         5
     </spacing>
