@@ -11,7 +11,7 @@ public class Miembro {
     public Miembro(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
-        this.deporte = null;
+        this.deporte = deporte;
     }
     public Miembro(String nombre, int edad, Deporte deporte) {
         this.nombre = nombre;
@@ -32,7 +32,11 @@ public class Miembro {
     }
 
     public boolean siEsAdulto() {
-        return edad >= 18;
+        if (this.edad >= 18) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setDeporte(Deporte deporte) {

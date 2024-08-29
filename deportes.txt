@@ -11,3 +11,4 @@ Danza,bailar,MEDIO
 Equitacion,caballos,MEDIO
 Natacion,nadar,BAJO
 Futbol2,bolaa,BAJO
+Natacion2,nadar,MEDIO

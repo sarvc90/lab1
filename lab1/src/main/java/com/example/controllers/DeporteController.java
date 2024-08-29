@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.util.List;
 
 import com.example.Modelo.Club;
+import com.example.Modelo.ClubSingleton;
 import com.example.Modelo.Deporte;
 import com.example.Modelo.Dificultad;
 import com.example.Modelo.Miembro;
@@ -62,7 +63,7 @@ public class DeporteController {
     @FXML
     public void initialize() {
         dificultadComboBox.getItems().addAll("BAJO", "MEDIO", "ALTO");
-        club = new Club("Mi Club");
+        club = ClubSingleton.getClub();
         deporteComboBox.setItems(deportes);
         cargarDeportes();
         miembrosListView.setItems(miembros);

@@ -31,24 +31,41 @@ public class Club {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
-
     public void inscribirMiembro(Miembro miembro, Deporte deporte) {
+        if (deporte == null) {
+            System.out.println("Error: Deporte is null");
+            return;
+        }
+    
+        if (deporte.getNivelDificultad() == null) {
+            System.out.println("Error: NivelDificultad is null");
+            return;
+        }
+    
         if (miembro.siEsAdulto()) {
-            miembro.setDeporte(deporte); // Agregamos esta línea para actualizar el miembro con el deporte seleccionado
+            // Adult members can register to any sport
+            miembro.setDeporte(deporte);
             miembroRepository.actualizar(miembro);
             deporte.addMiembro(miembro);
-    
         } else {
-            if (deporte.getNivelDificultad() == Dificultad.BAJO || deporte.getNivelDificultad() == Dificultad.MEDIO) {
-                miembro.setDeporte(deporte); // Agregamos esta línea para actualizar el miembro con el deporte seleccionado
-                miembroRepository.actualizar(miembro);
-                deporte.addMiembro(miembro);
-     
-            } else {
-                System.out.println("No se puede inscribir a este deporte porque es de alto riesgo y el miembro no es adulto.");
+            // Minor members have restrictions based on sport difficulty
+            switch (deporte.getNivelDificultad()) {
+                case BAJO:
+                case MEDIO:
+                    // Minor members can register to low or medium difficulty sports
+                    miembro.setDeporte(deporte);
+                    miembroRepository.actualizar(miembro);
+                    deporte.addMiembro(miembro);
+                    System.out.println("bajo");
+                    break;
+                case ALTO:
+                    // Minor members need parental consent or additional information for high difficulty sports
+                    System.out.println("El miembro es menor de edad y el deporte tiene un nivel de dificultad alto.");
+                    break;
             }
         }
     }
+    
 
 
     // Métodos de CRUD para Deportes

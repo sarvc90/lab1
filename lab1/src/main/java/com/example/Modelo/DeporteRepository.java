@@ -59,7 +59,8 @@ public class DeporteRepository implements Repository<Deporte> {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
-                Deporte deporte = new Deporte(partes[0], partes[1], null); // Agrego null como nivelDificultad
+                Dificultad nivelDificultad = Dificultad.valueOf(partes[2]);
+                Deporte deporte = new Deporte(partes[0], partes[1], nivelDificultad); // Agrego null como nivelDificultad
                 deportes.add(deporte);
             }
         } catch (IOException e) {

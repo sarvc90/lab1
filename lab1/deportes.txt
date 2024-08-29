@@ -1,7 +1,8 @@
-tenis,bola grande,null
-Futbol,bola grande,null
-baloncesto,balon,null
-Danza,bailar,null
-Equitacion,caballos 1,null
-Natacion,nadar,null
+tenis,bola pequeña,ALTO
+Futbol,bola grande,BAJO
+baloncesto,balon,BAJO
+Danza,bailar,BAJO
+Equitacion,caballos 1,BAJO
+Natacion,nadar,BAJO
 Futbol2,bolaa,BAJO
+Natacion2,nadar,MEDIO
