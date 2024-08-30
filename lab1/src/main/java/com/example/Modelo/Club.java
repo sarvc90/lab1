@@ -31,17 +31,17 @@ public class Club {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
-    public void inscribirMiembro(Miembro miembro, Deporte deporte) {
+    public void inscribirMiembro(Miembro miembro, Deporte deporte) throws MiembroMenorDeEdadException {
         if (deporte == null) {
             System.out.println("Error: Deporte is null");
             return;
         }
-    
+        
         if (deporte.getNivelDificultad() == null) {
             System.out.println("Error: NivelDificultad is null");
             return;
         }
-    
+        
         if (miembro.siEsAdulto()) {
             // Adult members can register to any sport
             miembro.setDeporte(deporte);
@@ -56,12 +56,9 @@ public class Club {
                     miembro.setDeporte(deporte);
                     miembroRepository.actualizar(miembro);
                     deporte.addMiembro(miembro);
-                    System.out.println("bajo");
                     break;
                 case ALTO:
-                    // Minor members need parental consent or additional information for high difficulty sports
-                    System.out.println("El miembro es menor de edad y el deporte tiene un nivel de dificultad alto.");
-                    break;
+                    throw new MiembroMenorDeEdadException("El miembro es menor de edad y el deporte tiene un nivel de dificultad alto.");
             }
         }
     }

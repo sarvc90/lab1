@@ -8,6 +8,7 @@ import com.example.Modelo.ClubSingleton;
 import com.example.Modelo.Deporte;
 import com.example.Modelo.Dificultad;
 import com.example.Modelo.Miembro;
+import com.example.Modelo.MiembroMenorDeEdadException;
 
 import javafx.scene.control.Alert;
 import javafx.collections.FXCollections;
@@ -166,36 +167,41 @@ public class DeporteController {
         }
     }
 
-    @FXML
-    public void agregarMiembro() {
-        String nombre = nombreMiembroTextField.getText();
-        int edad = Integer.parseInt(edadMiembroTextField.getText());
-        Deporte deporte = deporteComboBox.getSelectionModel().getSelectedItem();
-        if (deporte == null) {
-            // Mostrar un mensaje de error si no se ha seleccionado un deporte
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al agregar miembro");
-            alert.setContentText("Debe seleccionar un deporte.");
-            alert.showAndWait();
-            return;
-        }
-        Miembro miembro = new Miembro(nombre, edad, deporte);
+@FXML
+public void agregarMiembro() {
+    String nombre = nombreMiembroTextField.getText();
+    int edad = Integer.parseInt(edadMiembroTextField.getText());
+    Deporte deporte = deporteComboBox.getSelectionModel().getSelectedItem();
+    if (deporte == null) {
+        // Mostrar un mensaje de error si no se ha seleccionado un deporte
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al agregar miembro");
+        alert.setContentText("Debe seleccionar un deporte.");
+        alert.showAndWait();
+        return;
+    }
+    Miembro miembro = new Miembro(nombre, edad, deporte);
+    try {
         club.inscribirMiembro(miembro, deporte);
-
-        // Limpia los campos
-        nombreMiembroTextField.clear();
-        edadMiembroTextField.clear();
-        deporteComboBox.getSelectionModel().clearSelection();
-
-        // Muestra un mensaje de confirmación
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Miembro agregado");
-        alert.setHeaderText("Miembro agregado con éxito");
-        alert.setContentText(
-                "El miembro " + miembro.getNombre() + " ha sido agregado con éxito al deporte " + deporte.getNombre());
+        miembros.add(miembro); // Agrega el miembro a la lista observable
+        miembrosListView.setItems(miembros); // Actualiza la vista
+    } catch (MiembroMenorDeEdadException e) {
+        // Mostrar un mensaje de error si el miembro es menor de edad y el deporte tiene un nivel de dificultad alto
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al agregar miembro");
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
+    } catch (Exception e) {
+        // Mostrar un mensaje de error genérico si ocurre otro tipo de error
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error al agregar miembro");
+        alert.setContentText("Ocurrió un error al agregar el miembro: " + e.getMessage());
         alert.showAndWait();
     }
+}
 
     @FXML
     public void eliminarDeporte() {
