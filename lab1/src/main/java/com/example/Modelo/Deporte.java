@@ -49,22 +49,24 @@ public class Deporte {
         this.descripcion = descripcion;
     }
     // Buscar miembros que practican este deporte
-    public List<Miembro> fetchMiembrosAndEntrenadores(Club club) {
-
+    public List<Object> fetchMiembrosAndEntrenadores(Club club) {
+        List<Object> resultado = new ArrayList<>();
+    
         for (Miembro miembro : club.obtenerMiembros()) {
             if (miembro.getDeporte() != null && miembro.getDeporte().equals(this)) {
-                this.miembros.add(miembro);
+                resultado.add(miembro);
             }
-    
         }
-        
+    
         for (Entrenador entrenador : club.obtenerEntrenadores()) {
             if (entrenador.getEspecialidad().equals(this)) {
-                this.entrenadores.add(entrenador);
+                resultado.add(entrenador);
             }
         }
-        return this.miembros; // Mover la sentencia de retorno aquí
+    
+        return resultado;
     }
+    
     @Override
     public String toString() {
         return nombre;

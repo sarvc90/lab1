@@ -1,12 +1,14 @@
 package com.example.controllers;
 
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Modelo.Club;
 import com.example.Modelo.ClubSingleton;
 import com.example.Modelo.Deporte;
 import com.example.Modelo.Dificultad;
+import com.example.Modelo.Entrenador;
 import com.example.Modelo.Miembro;
 import com.example.Modelo.MiembroMenorDeEdadException;
 
@@ -55,7 +57,7 @@ public class DeporteController {
     @FXML
     private ListView<Deporte> deportesListView;
     @FXML
-    private ListView<Miembro> miembrosListView;
+    private ListView<Object> miembrosListView;
 
     private ObservableList<Miembro> miembros = FXCollections.observableArrayList();
     private ObservableList<Deporte> deportes = FXCollections.observableArrayList();
@@ -67,7 +69,7 @@ public class DeporteController {
         club = ClubSingleton.getClub();
         deporteComboBox.setItems(deportes);
         cargarDeportes();
-        miembrosListView.setItems(miembros);
+        //miembrosListView.setItems(miembros);
         miembrosListView.setPlaceholder(new Label("No hay miembros"));
 
     }
@@ -185,7 +187,7 @@ public void agregarMiembro() {
     try {
         club.inscribirMiembro(miembro, deporte);
         miembros.add(miembro); // Agrega el miembro a la lista observable
-        miembrosListView.setItems(miembros); // Actualiza la vista
+        //miembrosListView.setItems(miembros); // Actualiza la vista
     } catch (MiembroMenorDeEdadException e) {
         // Mostrar un mensaje de error si el miembro es menor de edad y el deporte tiene un nivel de dificultad alto
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -286,34 +288,33 @@ public void agregarMiembro() {
 
     }
 
+
     @FXML
     private void cargarMiembros() {
         miembros.clear(); // Limpia la lista observable de miembros
         Deporte deporteSeleccionado = deporteComboBox.getSelectionModel().getSelectedItem();
-        System.out.println(deporteSeleccionado);
     
         if (deporteSeleccionado != null) {
             try {
-                List<Miembro> miembrosList = deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
-                System.out.println("Miembros del deporte " + deporteSeleccionado.getNombre() + ":");
-                System.out.println(miembrosList.size());
-                for (Miembro miembro : miembrosList) {
-                    System.out.println(miembro.getNombre());
-                }
-                miembros.setAll(miembrosList); // Actualiza la lista observable
+                List<Object> miembrosList = deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
+                ObservableList<Object> observableList = FXCollections.observableArrayList(miembrosList);
     
-                // Configura la ListView con el contenido de la lista observable
-                miembrosListView.setItems(miembros);
-    
-                miembrosListView.setCellFactory(new Callback<ListView<Miembro>, ListCell<Miembro>>() {
+                miembrosListView.setItems(observableList);
+                miembrosListView.setCellFactory(new Callback<ListView<Object>, ListCell<Object>>() {
                     @Override
-                    public ListCell<Miembro> call(ListView<Miembro> p) {
-                        return new ListCell<Miembro>() {
+                    public ListCell<Object> call(ListView<Object> p) {
+                        return new ListCell<Object>() {
                             @Override
-                            protected void updateItem(Miembro item, boolean empty) {
+                            protected void updateItem(Object item, boolean empty) {
                                 super.updateItem(item, empty);
                                 if (item != null) {
-                                    setText(item.getNombre());
+                                    if (item instanceof Miembro) {
+                                        Miembro miembro = (Miembro) item;
+                                        setText(miembro.getNombre());
+                                    } else if (item instanceof Entrenador) {
+                                        Entrenador entrenador = (Entrenador) item;
+                                        setText(entrenador.getNombre());
+                                    }
                                 } else {
                                     setText(null);
                                 }
@@ -334,7 +335,7 @@ public void agregarMiembro() {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se ha seleccionado un deporte");
-            alert.setContentText("Por favor, seleccione un deporte del combo box");
+            alert.setContentText("Por favor, seleccione un deporte para ver sus miembros.");
             alert.showAndWait();
         }
     }

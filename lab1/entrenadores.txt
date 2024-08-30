@@ -1,3 +1,1 @@
-Juan,juan@gmail.com,1013,tenis
-Miguel,miguel@gmail.com,1014,baloncesto
-Ana,ana@gmail.com,1015,tenis
+Anita,ana@gmail.com,1015,Futbol
