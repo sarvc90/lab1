@@ -31,6 +31,13 @@
                         </VBox>
                     </content>
                 </Tab>
+                <Tab text="Entrenadores">
+                    <content>
+                        <VBox>
+                            <Button text="Open Entrenadores View" onAction="#openEntrenadorView"/>
+                        </VBox>
+                    </content>
+                </Tab>
             </tabs>
         </TabPane>
     </center>

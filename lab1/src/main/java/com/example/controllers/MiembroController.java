@@ -78,7 +78,6 @@ public class MiembroController {
     @FXML
     public void eliminarMiembro() {
         String nombre = nombreTextField.getText();
-        String edad = edadTextField.getText();
         if (nombre.isEmpty()) {
             // Mostrar un mensaje de error si no se ha ingresado un nombre
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -88,21 +87,38 @@ public class MiembroController {
             alert.showAndWait();
             return;
         }
-        club.eliminarMiembro(nombre);
-        mostrarMiembros();
-        // Muestra un mensaje de confirmación
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Miembro eliminado");
-        alert.setHeaderText("Miembro eliminado con éxito");
-        alert.setContentText("El miembro " + nombre + " ha sido eliminado con éxito.");
-        alert.showAndWait();
-        // Actualiza la lista de miembros
-        // mostrarMiembros(); // Update the miembrosListView
-        // Limpia los campos
-        nombreTextField.clear();
-        edadTextField.clear();
+        
+        // Buscar el miembro por nombre
+        Miembro miembro = null;
+        for (Miembro m : club.obtenerMiembros()) {
+            if (m.getNombre().equals(nombre)) {
+                miembro = m;
+                break;
+            }
+        }
+        
+        if (miembro != null) {
+            club.eliminarMiembro(miembro.getNombre());
+            mostrarMiembros();
+            // Muestra un mensaje de confirmación
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Miembro eliminado");
+            alert.setHeaderText("Miembro eliminado con éxito");
+            alert.setContentText("El miembro " + miembro.getNombre() + " ha sido eliminado con éxito.");
+            alert.showAndWait();
+            // Limpia los campos
+            nombreTextField.clear();
+            edadTextField.clear();
+        } else {
+            // Mostrar un mensaje de error si no se encuentra el miembro
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al eliminar miembro");
+            alert.setContentText("No se encuentra el miembro con el nombre ingresado.");
+            alert.showAndWait();
+        }
     }
-
+    
     @FXML
     public void actualizarMiembro() {
         String nombre = nombreTextField.getText();
@@ -111,42 +127,57 @@ public class MiembroController {
             // Mostrar un mensaje de error si no se ha ingresado un nombre
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText("Error al eliminar miembro");
+            alert.setHeaderText("Error al actualizar miembro");
             alert.setContentText("Debe ingresar un nombre.");
             alert.showAndWait();
             return;
         }
-        try {
-            int edad = Integer.parseInt(edadString); // Parse edad as an int
-            Miembro miembro = new Miembro(nombre, edad);
-            club.actualizarMiembro(miembro);
-            mostrarMiembros();
-    
-            // Limpia los campos
-            nombreTextField.clear();
-            edadTextField.clear();
-    
-            // cargarMiembros();
-    
-            // Muestra un mensaje de confirmación
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Miembro actualizado");
-            alert.setHeaderText("Miembro actualizado con éxito");
-            alert.setContentText("El miembro " + miembro.getNombre() + " ha sido actualizado con éxito.");
-            alert.showAndWait();
-        } catch (NumberFormatException e) {
-            // Mostrar un mensaje de error si la edad no es un número válido
+        
+        // Buscar el miembro por nombre
+        Miembro miembro = null;
+        for (Miembro m : club.obtenerMiembros()) {
+            if (m.getNombre().equals(nombre)) {
+                miembro = m;
+                break;
+            }
+        }
+        
+        if (miembro != null) {
+            try {
+                int edad = Integer.parseInt(edadString); // Parse edad as an int
+                miembro.setEdad(edad);
+                club.actualizarMiembro(miembro);
+                mostrarMiembros();
+                // Limpia los campos
+                nombreTextField.clear();
+                edadTextField.clear();
+                // Muestra un mensaje de confirmación
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Miembro actualizado");
+                alert.setHeaderText("Miembro actualizado con éxito");
+                alert.setContentText("El miembro " + miembro.getNombre() + " ha sido actualizado con éxito.");
+                alert.showAndWait();
+            } catch (NumberFormatException e) {
+                // Mostrar un mensaje de error si la edad no es un número válido
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error al actualizar miembro");
+                alert.setContentText("La edad debe ser un número.");
+                alert.showAndWait();
+            } catch (Exception e) {
+                // Mostrar un mensaje de error si ocurre un error al crear el deporte
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error al actualizar miembro");
+                alert.setContentText("Ocurrió un error al actualizar el miembro: " + e.getMessage());
+                alert.showAndWait();
+            }
+        } else {
+            // Mostrar un mensaje de error si no se encuentra el miembro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Error al actualizar miembro");
-            alert.setContentText("La edad debe ser un número.");
-            alert.showAndWait();
-        } catch (Exception e) {
-            // Mostrar un mensaje de error si ocurre un error al crear el deporte
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error al actualizar miembro");
-            alert.setContentText("Ocurrió un error al actualizar el miembro: " + e.getMessage());
+            alert.setContentText("No se encuentra el miembro con el nombre ingresado.");
             alert.showAndWait();
         }
     }

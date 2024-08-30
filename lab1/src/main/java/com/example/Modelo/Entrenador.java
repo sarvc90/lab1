@@ -22,6 +22,24 @@ public class Entrenador extends Persona {
     public void addSesion(SesionEntrenamiento sesion) {
         sesiones.add(sesion);
     }
+    public void setEspecialidad(Deporte especialidad) {
+        this.especialidad = especialidad;
+    }
+    
+    public void setSesiones(List<SesionEntrenamiento> sesiones) {
+        this.sesiones = sesiones;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
 
     //Busca las sesiones de entrenamiento en las que este asignado el entrenador
     public void fetchSesionesEntrenamiento(Club club) {

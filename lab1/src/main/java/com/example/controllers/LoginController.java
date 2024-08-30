@@ -37,7 +37,7 @@ public class LoginController {
         if (admin != null && admin.getNombre().equals(nombre) && admin.getEmail().equals(password)) {
             try {
                 // Cargar la ventana principal
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/views/MainView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/MainView.fxml"));
                 Stage stage = (Stage) txtNombre.getScene().getWindow();
                 stage.setScene(new Scene(loader.load()));
                 stage.show();

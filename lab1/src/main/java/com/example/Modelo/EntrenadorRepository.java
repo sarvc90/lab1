@@ -26,6 +26,7 @@ public class EntrenadorRepository implements Repository<Entrenador> {
         return entrenadores;
     }
 
+    
     public Entrenador obtenerPorNombre(String nombre){
         for (Entrenador entrenador : entrenadores) {
             if (entrenador.getNombre().equals(nombre)) {
@@ -59,9 +60,14 @@ public class EntrenadorRepository implements Repository<Entrenador> {
         try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_ENTRENADORES))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-                String[] partes = linea.split(",");
-                Entrenador entrenador = new Entrenador(partes[0], partes[1], Integer.parseInt(partes[2]), null);
-                entrenadores.add(entrenador);
+                String[] partes = linea.split(","); // Split the linea into parts
+                if (partes.length >= 4) { // Check if the array has at least 4 elements
+                    Deporte especialidad = new Deporte(partes[3], linea, null); // Create a Deporte object with the name of the specialty
+                    Entrenador entrenador = new Entrenador(partes[0], partes[1], Integer.parseInt(partes[2]), especialidad);
+                    entrenadores.add(entrenador);
+                } else {
+                    System.err.println("Error: invalid file format. Skipping line: " + linea);
+                }
             }
         } catch (IOException e) {
             System.err.println("Error al cargar entrenadores desde archivo: " + e.getMessage());
@@ -71,7 +77,7 @@ public class EntrenadorRepository implements Repository<Entrenador> {
     public void guardarEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_ENTRENADORES))) {
             for (Entrenador entrenador : entrenadores) {
-                writer.write(entrenador.getNombre() + "," + entrenador.getEmail());
+                writer.write(entrenador.getNombre() + "," + entrenador.getEmail() + "," + entrenador.getId() + "," + entrenador.getEspecialidad().getNombre());
                 writer.newLine();
             }
         } catch (IOException e) {

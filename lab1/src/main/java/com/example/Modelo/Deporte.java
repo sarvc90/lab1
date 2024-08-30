@@ -4,7 +4,7 @@ import java.util.List;
 public class Deporte {
     private String nombre;
     private String descripcion;
-    private Dificultad nivelDificultad;
+    private static Dificultad nivelDificultad;
     private List<Entrenador> entrenadores;
     private List<Miembro> miembros;
     private Club club;
@@ -49,20 +49,30 @@ public class Deporte {
         this.descripcion = descripcion;
     }
     // Buscar miembros que practican este deporte
-    public void fetchMiembrosAndEntrenadores(Club club) {
+    public List<Miembro> fetchMiembrosAndEntrenadores(Club club) {
 
         for (Miembro miembro : club.obtenerMiembros()) {
             if (miembro.getDeporte() != null && miembro.getDeporte().equals(this)) {
                 this.miembros.add(miembro);
             }
-
-        }
     
+        }
+        
         for (Entrenador entrenador : club.obtenerEntrenadores()) {
             if (entrenador.getEspecialidad().equals(this)) {
                 this.entrenadores.add(entrenador);
             }
         }
+        return this.miembros; // Mover la sentencia de retorno aquí
+    }
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+    public static Deporte parseDeporte(String cadena) {
+        Deporte deporte = new Deporte(cadena, cadena, nivelDificultad);
+        return deporte;
     }
 
     

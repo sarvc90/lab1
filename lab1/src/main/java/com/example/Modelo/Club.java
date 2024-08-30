@@ -24,7 +24,6 @@ public class Club {
         return nombre;
     }
 
-
     public Administrador getAdministrador() {
         return administrador;
     }
@@ -142,4 +141,5 @@ public class Club {
         }
         return estados;
     }
+
 }

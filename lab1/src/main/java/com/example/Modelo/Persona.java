@@ -1,9 +1,9 @@
 package com.example.Modelo;
 
 public abstract class Persona {
-    private String nombre;
-    private String email;
-    private int id;
+    protected String nombre;
+    protected String email;
+    protected int id;
 
     public Persona(String nombre, String email, int id) {
         this.nombre = nombre;

@@ -291,21 +291,20 @@ public void agregarMiembro() {
         miembros.clear(); // Limpia la lista observable de miembros
         Deporte deporteSeleccionado = deporteComboBox.getSelectionModel().getSelectedItem();
         System.out.println(deporteSeleccionado);
-
+    
         if (deporteSeleccionado != null) {
             try {
-                deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
-                List<Miembro> miembrosList = deporteSeleccionado.getMiembros();
+                List<Miembro> miembrosList = deporteSeleccionado.fetchMiembrosAndEntrenadores(club);
                 System.out.println("Miembros del deporte " + deporteSeleccionado.getNombre() + ":");
                 System.out.println(miembrosList.size());
                 for (Miembro miembro : miembrosList) {
                     System.out.println(miembro.getNombre());
                 }
                 miembros.setAll(miembrosList); // Actualiza la lista observable
-
+    
                 // Configura la ListView con el contenido de la lista observable
                 miembrosListView.setItems(miembros);
-
+    
                 miembrosListView.setCellFactory(new Callback<ListView<Miembro>, ListCell<Miembro>>() {
                     @Override
                     public ListCell<Miembro> call(ListView<Miembro> p) {
@@ -327,11 +326,11 @@ public void agregarMiembro() {
                 alert.setTitle("Error");
                 alert.setHeaderText("Error al obtener miembros");
                 alert.setContentText("Ocurrió un error al obtener los miembros del deporte: " + e.getMessage());
+                System.out.println(e.getMessage());
                 alert.showAndWait();
             }
         } else {
-            miembrosListView.setItems(FXCollections.observableArrayList()); // Limpia la lista si no hay deporte
-                                                                            // seleccionado
+            miembrosListView.setItems(FXCollections.observableArrayList()); // Limpia la lista si no hay deporte seleccionado
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se ha seleccionado un deporte");
@@ -339,7 +338,6 @@ public void agregarMiembro() {
             alert.showAndWait();
         }
     }
-
     @FXML
     public void mostrarMiembros() {
         cargarMiembros();

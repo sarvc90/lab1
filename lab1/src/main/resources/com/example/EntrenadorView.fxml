@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+       fx:controller="com.example.controllers.EntrenadorController"
+       style="-fx-background-color: #2F4F7F; -fx-font-size: 14px;">
+    <children>
+        <Label text="Entrenador" style="-fx-text-fill: #FFFFFF; -fx-font-size: 18px;" />
+        <TextField fx:id="nombreTextField" promptText="Nombre" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <TextField fx:id="emailTextField" promptText="Email" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <TextField fx:id="idTextField" promptText="ID" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <ComboBox fx:id="especialidadComboBox" promptText="Especialidad" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <Button fx:id="agregarEntrenadorButton" onAction="#agregarEntrenador" text="Agregar" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <Button fx:id="eliminarEntrenadorButton" onAction="#eliminarEntrenador" text="Eliminar" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <Button fx:id="actualizarEntrenadorButton" onAction="#actualizarEntrenador" text="Actualizar" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+        <ListView fx:id="entrenadoresListView" prefHeight="150.0" prefWidth="150.0" style="-fx-text-fill: #000000; -fx-font-size: 14px;" />
+    </children>
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10" />
+    </padding>
+    <spacing>
+        5
+    </spacing>
+</VBox>
