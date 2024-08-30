@@ -71,7 +71,8 @@ public class SesionEntrenamientoRepository implements Repository<SesionEntrenami
 
     private boolean existeSesionConMismoEntrenadorYFecha(SesionEntrenamiento sesion) {
         for (SesionEntrenamiento s : sesiones) {
-            if (s.getEntrenador().equals(sesion.getEntrenador()) && s.getFecha().equals(sesion.getFecha()) && s.getDeporte().equals(sesion.getDeporte())) {
+            if (s.getEntrenador() != null && s.getEntrenador().equals(sesion.getEntrenador()) 
+                    && s.getFecha().equals(sesion.getFecha()) && s.getDeporte().equals(sesion.getDeporte())) {
                 return true;
             }
         }

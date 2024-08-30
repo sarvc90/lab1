@@ -1,5 +1,6 @@
 package com.example.Modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Club {
@@ -132,5 +133,13 @@ public class Club {
 
     public void eliminarSesionEntrenamiento(String fecha) {
         sesionEntrenamientoRepository.eliminar(fecha);
+    }
+    
+    public List<Estado> getEstados() {
+        List<Estado> estados = new ArrayList<>();
+        for (Estado estado : Estado.values()) {
+            estados.add(estado);
+        }
+        return estados;
     }
 }

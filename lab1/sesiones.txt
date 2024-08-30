@@ -1,1 +1,3 @@
-2022-01-01,60,PROGRAMADA,com.example.Modelo.Deporte@2ef1e4fa,com.example.Modelo.Entrenador@306a30c7
+2024-01-11,30,null,null,null[]
+2025-02-11,12,null,null,null[]
+2022-01-01,60,PROGRAMADA,com.example.Modelo.Deporte@34c114b6,com.example.Modelo.Entrenador@71a4c25e[]

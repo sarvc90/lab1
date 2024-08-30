@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @FXML
-    public void handleLogin(ActionEvent event) {
+    public void handleLogin() {
         String nombre = txtNombre.getText();
         String password = txtPassword.getText();
 

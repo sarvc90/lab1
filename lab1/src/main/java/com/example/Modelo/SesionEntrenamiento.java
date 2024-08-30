@@ -43,6 +43,45 @@ public class SesionEntrenamiento {
     public List<Miembro> getMiembros(){
         return miembros;
     }
-
+    public void setMiembro(Miembro miembro) {
+        this.miembros.add(miembro);
+    }
+    public void addMiembros(List<Miembro> miembros) {
+        this.miembros.addAll(miembros);
+    }
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+    
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+    
+    public void setDeporte(Deporte deporte) {
+        this.deporte = deporte;
+    }
+    
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
+    }
+    
+    public void setMiembros(List<Miembro> miembros) {
+        this.miembros = miembros;
+    }
+    @Override
+public String toString() {
+    return "SesionEntrenamiento{" +
+            "fecha='" + fecha + '\'' +
+            ", duracion=" + duracion +
+            ", estado=" + estado +
+            ", deporte=" + deporte +
+            ", entrenador=" + entrenador +
+            ", miembros=" + miembros +
+            '}';
+}
     
 }
