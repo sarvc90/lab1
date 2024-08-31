@@ -1,6 +1,7 @@
 package com.example.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.Modelo.Club;
 import com.example.Modelo.ClubSingleton;
@@ -35,6 +36,8 @@ public class SesionEntrenamientoController {
     private ListView<Miembro> miembrosListView;
     @FXML
     private ListView<SesionEntrenamiento> sesionesListView;
+    @FXML
+    private TextField buscarMiembroTextField;
 
     private Club club;
 
@@ -54,7 +57,32 @@ public class SesionEntrenamientoController {
         // Additional checks as needed
         return new SesionEntrenamiento(fecha, duracion, estado, deporte, entrenador, miembros);
     }
-
+    @FXML
+    public void agregarMiembro() {
+        String nombreMiembro = buscarMiembroTextField.getText();
+        Miembro miembro = null;
+    
+        // Buscar miembro por nombre
+        for (Miembro m : club.obtenerMiembros()) {
+            if (m.getNombre().equals(nombreMiembro)) {
+                miembro = m;
+                break;
+            }
+        }
+    
+        if (miembro != null) {
+            SesionEntrenamiento sesionSeleccionada = sesionesListView.getSelectionModel().getSelectedItem();
+            if (sesionSeleccionada != null) {
+                sesionSeleccionada.addMiembros(List.of(miembro));
+                sesionesListView.refresh();
+                mostrarAlerta("Información", "Miembro agregado a la sesión con éxito.");
+            } else {
+                mostrarAlerta("Error", "Por favor, seleccione una sesión.");
+            }
+        } else {
+            mostrarAlerta("Error", "No se ha encontrado un miembro con ese nombre.");
+        }
+    }
     @FXML
     public void crearSesion() {
         // Validar campos de texto
@@ -116,14 +144,14 @@ public class SesionEntrenamientoController {
             sesionToUpdate.setEntrenador(entrenador);
             sesionToUpdate.setMiembros(miembros);
     
-            // Update the club and the ListView
+            // Update the club
             club.actualizarSesionEntrenamiento(sesionToUpdate);
-            
+    
             // Remove and re-add the session to refresh the ListView
             sesionesListView.getItems().remove(sesionToUpdate);
             sesionesListView.getItems().add(sesionToUpdate);
             sesionesListView.refresh();
-            
+    
             mostrarAlerta("Información", "Sesión actualizada con éxito.");
         } else {
             mostrarAlerta("Error", "No se ha encontrado una sesión que coincida con la fecha ingresada.");
@@ -134,16 +162,24 @@ public class SesionEntrenamientoController {
     @FXML
     public void eliminarSesion() {
         String fecha = fechaTextField.getText();
-        int duracion = Integer.parseInt(duracionTextField.getText());
-        Estado estado = estadoComboBox.getSelectionModel().getSelectedItem();
-        Deporte deporte = deporteComboBox.getSelectionModel().getSelectedItem();
-        Entrenador entrenador = entrenadorComboBox.getSelectionModel().getSelectedItem();
-        List<Miembro> miembros = miembrosListView.getItems();
     
-        SesionEntrenamiento sesion = createSesionEntrenamiento(fecha, duracion, estado, deporte, entrenador, miembros);
-        club.eliminarSesionEntrenamiento(sesion.getFecha());
-        sesionesListView.getItems().remove(sesion);
-        mostrarAlerta("Información", "Sesión eliminada con éxito.");
+        // Find the existing session to delete
+        SesionEntrenamiento sesionToDelete = null;
+        for (SesionEntrenamiento sesion : sesionesListView.getItems()) {
+            if (sesion.getFecha().equals(fecha)) {
+                sesionToDelete = sesion;
+                break;
+            }
+        }
+    
+        if (sesionToDelete != null) {
+            // Delete the session from the club and the ListView
+            club.eliminarSesionEntrenamiento(sesionToDelete.getFecha());
+            sesionesListView.getItems().remove(sesionToDelete);
+            mostrarAlerta("Información", "Sesión eliminada con éxito.");
+        } else {
+            mostrarAlerta("Error", "No se ha encontrado una sesión que coincida con la fecha ingresada.");
+        }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
@@ -210,5 +246,24 @@ public class SesionEntrenamientoController {
                 };
             }
         });
+        sesionesListView.setCellFactory(new Callback<ListView<SesionEntrenamiento>, ListCell<SesionEntrenamiento>>() {
+    @Override
+    public ListCell<SesionEntrenamiento> call(ListView<SesionEntrenamiento> p) {
+        return new ListCell<SesionEntrenamiento>() {
+            @Override
+            protected void updateItem(SesionEntrenamiento item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    String miembros = item.getMiembros().stream()
+                            .map(Miembro::getNombre)
+                            .collect(Collectors.joining(", "));
+                    setText("Fecha: " + item.getFecha() + ", Miembros: " + miembros);
+                } else {
+                    setText(null);
+                }
+            }
+        };
+    }
+});
     }
 }

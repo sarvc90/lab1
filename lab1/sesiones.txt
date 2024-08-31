@@ -1,5 +1,1 @@
-2024-01-11,30,null,null,null[]
-2025-02-11,12,null,null,null[]
-2022-01-01,60,null,null,null[]
-2025-10-04,30,null,null,null[]
-2029-11-09,69,PROGRAMADA,Futbol,com.example.Modelo.Entrenador@1246c8dc[]
+2021-11-10,69,PROGRAMADA,Futbol,Amalia[]
