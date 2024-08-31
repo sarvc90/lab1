@@ -6,16 +6,23 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AdministradorRepository{
-    private static AdministradorRepository instancia;
-    private Administrador admin;
-    private static final String ADMIN_DEPORTES = "C:\\Users\\sccva\\OneDrive\\Documentos\\GitHub\\lab1\\lab1\\admin.txt";
+public class AdministradorRepository {
+    private static AdministradorRepository instancia; // Instancia única del repositorio
+    private Administrador admin; // Administrador actual
+    private static final String ADMIN_DEPORTES = "C:\\Users\\sccva\\OneDrive\\Documentos\\GitHub\\lab1\\lab1\\admin.txt"; // Ruta del archivo
 
-
+    /**
+     * Constructor que carga el administrador desde el archivo.
+     */
     public AdministradorRepository() {
         cargarDesdeArchivo();
     }
 
+    /**
+     * Obtiene la instancia única del repositorio.
+     * 
+     * @return La instancia única del repositorio
+     */
     public static AdministradorRepository getInstancia() {
         if (instancia == null) {
             instancia = new AdministradorRepository();
@@ -23,6 +30,11 @@ public class AdministradorRepository{
         return instancia;
     }
 
+    /**
+     * Crea un nuevo administrador si no existe uno.
+     * 
+     * @param admin El administrador a crear
+     */
     public void crear(Administrador admin) {
         if (this.admin == null || this.admin.getNombre().isEmpty()) {
             this.admin = admin;
@@ -32,10 +44,18 @@ public class AdministradorRepository{
         }
     }
 
+    /**
+     * Obtiene el administrador actual.
+     * 
+     * @return El administrador actual
+     */
     public Administrador obtenerAdmin() {
         return admin;
     }
 
+    /**
+     * Carga el administrador desde el archivo.
+     */
     public void cargarDesdeArchivo() {
         try (BufferedReader reader = new BufferedReader(new FileReader(ADMIN_DEPORTES))) {
             String linea;
@@ -48,11 +68,14 @@ public class AdministradorRepository{
         }
     }
 
+    /**
+     * Guarda el administrador en el archivo.
+     */
     private void guardarEnArchivo() {
         if (admin != null) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(ADMIN_DEPORTES, true))) {
                 writer.write(admin.getNombre() + "," + admin.getEmail() + "," + admin.getId());
-                writer.newLine(); // add a new line after each admin
+                writer.newLine(); // Agrega una nueva línea después de cada administrador
             } catch (IOException e) {
                 System.err.println("Error al guardar administrador en archivo: " + e.getMessage());
             }

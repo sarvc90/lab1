@@ -11,87 +11,79 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Clase controladora para la ventana principal de la aplicación.
+ * Controlador para la ventana principal de la aplicación.
+ * 
+ * Maneja la apertura de diferentes vistas dentro de la aplicación.
  */
 public class MainController {
-    /**
-     * Referencia al TabPane principal de la ventana.
-     */
     @FXML
-    private TabPane mainTabPane;
+    private TabPane mainTabPane;  // El TabPane principal donde se manejan las pestañas
 
     /**
-     * Método de inicialización de la ventana.
+     * Inicializa la ventana principal.
+     * 
+     * Aquí puedes agregar lógica para configurar la ventana al inicio, si es necesario.
      */
     @FXML
     public void initialize() {
-        // Aquí puedes inicializar cualquier lógica adicional si es necesario
+        // Configura la ventana principal si es necesario
     }
 
     /**
-     * Método para abrir la vista de Miembros.
-     * @param event Evento de acción que disparó este método.
+     * Abre la vista de Miembros.
+     * 
+     * @param event El evento que dispara la apertura de la vista.
      */
     @FXML
     private void openMiembrosView(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/MiembroView.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cargarVista("/com/example/MiembroView.fxml");
     }
 
     /**
-     * Método para abrir la vista de Deportes.
-     * @param event Evento de acción que disparó este método.
+     * Abre la vista de Deportes.
+     * 
+     * @param event El evento que dispara la apertura de la vista.
      */
     @FXML
     private void openDeportesView(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/DeporteView.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cargarVista("/com/example/DeporteView.fxml");
     }
 
     /**
-     * Método para abrir la vista de Sesiones.
-     * @param event Evento de acción que disparó este método.
+     * Abre la vista de Sesiones.
+     * 
+     * @param event El evento que dispara la apertura de la vista.
      */
     @FXML
     private void openSesionesView(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/SesionEntrenamientoView.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cargarVista("/com/example/SesionEntrenamientoView.fxml");
     }
+
+    /**
+     * Abre la vista de Entrenadores.
+     * 
+     * @param event El evento que dispara la apertura de la vista.
+     */
     @FXML
     private void openEntrenadorView(ActionEvent event) {
+        cargarVista("/com/example/EntrenadorView.fxml");
+    }
+
+    /**
+     * Carga una vista específica en una nueva ventana.
+     * 
+     * @param vista Ruta del archivo FXML de la vista a cargar.
+     */
+    private void cargarVista(String vista) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/EntrenadorView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(vista));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Muestra un error si no se puede cargar la vista
         }
     }
 }

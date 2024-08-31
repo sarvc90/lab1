@@ -22,27 +22,40 @@ import javafx.util.Callback;
 public class SesionEntrenamientoController {
 
     @FXML
-    private TextField fechaTextField;
+    private TextField fechaTextField;           // Campo para la fecha de la sesión
     @FXML
-    private TextField duracionTextField;
+    private TextField duracionTextField;        // Campo para la duración de la sesión
     @FXML
-    private ComboBox<Estado> estadoComboBox;
+    private ComboBox<Estado> estadoComboBox;    // ComboBox para el estado de la sesión
     @FXML
-    private ComboBox<Deporte> deporteComboBox;
+    private ComboBox<Deporte> deporteComboBox;  // ComboBox para el deporte de la sesión
     @FXML
-    private ComboBox<Entrenador> entrenadorComboBox;
+    private ComboBox<Entrenador> entrenadorComboBox;  // ComboBox para el entrenador de la sesión
     @FXML
-    private ListView<Miembro> miembrosListView;
+    private ListView<Miembro> miembrosListView; // Lista para los miembros de la sesión
     @FXML
-    private ListView<SesionEntrenamiento> sesionesListView;
+    private ListView<SesionEntrenamiento> sesionesListView; // Lista para mostrar las sesiones
 
-    private Club club;
+    private Club club; // Club actual
 
-    // Constructor que inicializa el club
+    /**
+     * Constructor que inicializa el club usando el Singleton.
+     */
     public SesionEntrenamientoController() {
-        club = ClubSingleton.getClub(); // Usamos el Singleton para obtener la instancia de Club
+        club = ClubSingleton.getClub();
     }
 
+    /**
+     * Crea una nueva sesión de entrenamiento con los parámetros dados.
+     * 
+     * @param fecha Fecha de la sesión
+     * @param duracion Duración de la sesión
+     * @param estado Estado de la sesión
+     * @param deporte Deporte de la sesión
+     * @param entrenador Entrenador de la sesión
+     * @param miembros Miembros participantes en la sesión
+     * @return La sesión de entrenamiento creada
+     */
     private SesionEntrenamiento createSesionEntrenamiento(String fecha, int duracion, Estado estado, Deporte deporte,
             Entrenador entrenador, List<Miembro> miembros) {
         if (fecha == null || fecha.isEmpty()) {
@@ -51,19 +64,19 @@ public class SesionEntrenamientoController {
         if (duracion <= 0) {
             throw new IllegalArgumentException("Duracion must be a positive integer");
         }
-        // Additional checks as needed
         return new SesionEntrenamiento(fecha, duracion, estado, deporte, entrenador, miembros);
     }
 
+    /**
+     * Crea una nueva sesión de entrenamiento y la agrega al club.
+     */
     @FXML
     public void crearSesion() {
-        // Validar campos de texto
         if (fechaTextField.getText().isEmpty() || duracionTextField.getText().isEmpty()) {
             mostrarAlerta("Error", "Por favor, complete todos los campos.");
             return;
         }
 
-        // Validar combobox
         if (estadoComboBox.getSelectionModel().getSelectedItem() == null ||
                 deporteComboBox.getSelectionModel().getSelectedItem() == null ||
                 entrenadorComboBox.getSelectionModel().getSelectedItem() == null) {
@@ -71,7 +84,6 @@ public class SesionEntrenamientoController {
             return;
         }
 
-        // Obtener valores
         String fecha = fechaTextField.getText();
         int duracion = Integer.parseInt(duracionTextField.getText());
         Estado estado = estadoComboBox.getSelectionModel().getSelectedItem();
@@ -79,9 +91,7 @@ public class SesionEntrenamientoController {
         Entrenador entrenador = entrenadorComboBox.getSelectionModel().getSelectedItem();
         List<Miembro> miembros = miembrosListView.getItems();
 
-        // Crear sesión
         SesionEntrenamiento sesion = createSesionEntrenamiento(fecha, duracion, estado, deporte, entrenador, miembros);
-        // Agregar sesión al club y a la lista
         if (club != null) {
             club.crearSesionEntrenamiento(sesion);
             sesionesListView.getItems().add(sesion);
@@ -90,6 +100,10 @@ public class SesionEntrenamientoController {
             mostrarAlerta("Error", "Club is null!");
         }
     }
+
+    /**
+     * Actualiza una sesión de entrenamiento existente.
+     */
     @FXML
     public void actualizarSesion() {
         String fecha = fechaTextField.getText();
@@ -99,7 +113,6 @@ public class SesionEntrenamientoController {
         Entrenador entrenador = entrenadorComboBox.getSelectionModel().getSelectedItem();
         List<Miembro> miembros = miembrosListView.getItems();
     
-        // Find the existing session to update
         SesionEntrenamiento sesionToUpdate = null;
         for (SesionEntrenamiento sesion : sesionesListView.getItems()) {
             if (sesion.getFecha().equals(fecha)) {
@@ -109,17 +122,14 @@ public class SesionEntrenamientoController {
         }
     
         if (sesionToUpdate != null) {
-            // Update the existing session
             sesionToUpdate.setDuracion(duracion);
             sesionToUpdate.setEstado(estado);
             sesionToUpdate.setDeporte(deporte);
             sesionToUpdate.setEntrenador(entrenador);
             sesionToUpdate.setMiembros(miembros);
     
-            // Update the club and the ListView
             club.actualizarSesionEntrenamiento(sesionToUpdate);
             
-            // Remove and re-add the session to refresh the ListView
             sesionesListView.getItems().remove(sesionToUpdate);
             sesionesListView.getItems().add(sesionToUpdate);
             sesionesListView.refresh();
@@ -129,8 +139,10 @@ public class SesionEntrenamientoController {
             mostrarAlerta("Error", "No se ha encontrado una sesión que coincida con la fecha ingresada.");
         }
     }
-    
 
+    /**
+     * Elimina una sesión de entrenamiento existente.
+     */
     @FXML
     public void eliminarSesion() {
         String fecha = fechaTextField.getText();
@@ -146,6 +158,12 @@ public class SesionEntrenamientoController {
         mostrarAlerta("Información", "Sesión eliminada con éxito.");
     }
 
+    /**
+     * Muestra una alerta con el título y mensaje especificados.
+     * 
+     * @param titulo Título de la alerta
+     * @param mensaje Mensaje de la alerta
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -154,26 +172,27 @@ public class SesionEntrenamientoController {
         alert.showAndWait();
     }
 
+    /**
+     * Inicializa los ComboBox con los valores del club.
+     */
     public void initialize() {
-        // Inicializar los ComboBox con los valores del club
         estadoComboBox.getItems().addAll(club.getEstados());
-        estadoComboBox.setCellFactory(
-                (Callback<ListView<Estado>, ListCell<Estado>>) new Callback<ListView<Estado>, ListCell<Estado>>() {
+        estadoComboBox.setCellFactory(new Callback<ListView<Estado>, ListCell<Estado>>() {
+            @Override
+            public ListCell<Estado> call(ListView<Estado> p) {
+                return new ListCell<Estado>() {
                     @Override
-                    public ListCell<Estado> call(ListView<Estado> p) {
-                        return new ListCell<Estado>() {
-                            @Override
-                            protected void updateItem(Estado item, boolean empty) {
-                                super.updateItem(item, empty);
-                                if (item != null) {
-                                    setText(item.name()); // Display the name of the Estado
-                                } else {
-                                    setText(null);
-                                }
-                            }
-                        };
+                    protected void updateItem(Estado item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(item.name());
+                        } else {
+                            setText(null);
+                        }
                     }
-                });
+                };
+            }
+        });
 
         deporteComboBox.getItems().addAll(club.obtenerDeportes());
         deporteComboBox.setCellFactory(new Callback<ListView<Deporte>, ListCell<Deporte>>() {
@@ -184,7 +203,7 @@ public class SesionEntrenamientoController {
                     protected void updateItem(Deporte item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            setText(item.getNombre()); // Display the name of the Deporte
+                            setText(item.getNombre());
                         } else {
                             setText(null);
                         }
@@ -202,7 +221,7 @@ public class SesionEntrenamientoController {
                     protected void updateItem(Entrenador item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            setText(item.getNombre()); // Display the name of the Entrenador
+                            setText(item.getNombre());
                         } else {
                             setText(null);
                         }

@@ -26,6 +26,15 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 
+/**
+ * Controlador para la vista de Deporte.
+ * 
+ * Esta clase maneja la lógica para crear, actualizar y eliminar objetos Deporte.
+ * También maneja la lógica para agregar y eliminar Miembros de un Deporte.
+ * 
+ * @author [Sara Carolina Varón Correa, Sara Valentina Acosta Burbano]
+ */
+
 public class DeporteController {
 
     @FXML

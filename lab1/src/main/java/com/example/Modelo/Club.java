@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Club {
-    private String nombre;
-    private DeporteRepository deporteRepository;
-    private MiembroRepository miembroRepository;
-    private EntrenadorRepository entrenadorRepository;
-    private SesionEntrenamientoRepository sesionEntrenamientoRepository;
-    private Administrador administrador;
+    private String nombre; // Nombre del club
+    private DeporteRepository deporteRepository; // Repositorio de deportes
+    private MiembroRepository miembroRepository; // Repositorio de miembros
+    private EntrenadorRepository entrenadorRepository; // Repositorio de entrenadores
+    private SesionEntrenamientoRepository sesionEntrenamientoRepository; // Repositorio de sesiones de entrenamiento
+    private Administrador administrador; // Administrador del club
 
+    /**
+     * Constructor del club.
+     * 
+     * @param nombre Nombre del club
+     */
     public Club(String nombre) {
         this.nombre = nombre;
         this.deporteRepository = new DeporteRepository();
@@ -20,39 +25,59 @@ public class Club {
         this.administrador = null;
     }
 
+    /**
+     * Obtiene el nombre del club.
+     * 
+     * @return Nombre del club
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Obtiene el administrador del club.
+     * 
+     * @return Administrador del club
+     */
     public Administrador getAdministrador() {
         return administrador;
     }
 
+    /**
+     * Establece el administrador del club.
+     * 
+     * @param administrador Administrador a establecer
+     */
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
+
+    /**
+     * Inscribe un miembro en un deporte, con restricciones según la edad.
+     * 
+     * @param miembro Miembro a inscribir
+     * @param deporte Deporte en el que inscribir al miembro
+     * @throws MiembroMenorDeEdadException Si el miembro es menor de edad y el deporte tiene un nivel de dificultad alto
+     */
     public void inscribirMiembro(Miembro miembro, Deporte deporte) throws MiembroMenorDeEdadException {
         if (deporte == null) {
             System.out.println("Error: Deporte is null");
             return;
         }
-        
+
         if (deporte.getNivelDificultad() == null) {
             System.out.println("Error: NivelDificultad is null");
             return;
         }
-        
+
         if (miembro.siEsAdulto()) {
-            // Adult members can register to any sport
             miembro.setDeporte(deporte);
             miembroRepository.actualizar(miembro);
             deporte.addMiembro(miembro);
         } else {
-            // Minor members have restrictions based on sport difficulty
             switch (deporte.getNivelDificultad()) {
                 case BAJO:
                 case MEDIO:
-                    // Minor members can register to low or medium difficulty sports
                     miembro.setDeporte(deporte);
                     miembroRepository.actualizar(miembro);
                     deporte.addMiembro(miembro);
@@ -62,8 +87,6 @@ public class Club {
             }
         }
     }
-    
-
 
     // Métodos de CRUD para Deportes
     public void crearDeporte(Deporte deporte) {
@@ -99,7 +122,7 @@ public class Club {
         miembroRepository.eliminar(nombre);
     }
 
-    //Métodos de CRUD para Entrenadores
+    // Métodos de CRUD para Entrenadores
     public void crearEntrenador(Entrenador entrenador) {
         entrenadorRepository.crear(entrenador);
     }
@@ -115,9 +138,8 @@ public class Club {
     public void eliminarEntrenador(String nombre) {
         entrenadorRepository.eliminar(nombre);
     }
-    
-    
-    //Métodos de CRUD para SesionEntrenamiento
+
+    // Métodos de CRUD para SesionEntrenamiento
     public void crearSesionEntrenamiento(SesionEntrenamiento sesionEntrenamiento) {
         sesionEntrenamientoRepository.crear(sesionEntrenamiento);
     }
@@ -133,7 +155,12 @@ public class Club {
     public void eliminarSesionEntrenamiento(String fecha) {
         sesionEntrenamientoRepository.eliminar(fecha);
     }
-    
+
+    /**
+     * Obtiene todos los estados posibles.
+     * 
+     * @return Lista de estados
+     */
     public List<Estado> getEstados() {
         List<Estado> estados = new ArrayList<>();
         for (Estado estado : Estado.values()) {
@@ -141,5 +168,4 @@ public class Club {
         }
         return estados;
     }
-
 }
