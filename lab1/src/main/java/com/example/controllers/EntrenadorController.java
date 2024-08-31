@@ -133,6 +133,10 @@ private void actualizarEntrenador() {
             entrenador.setEspecialidad(especialidad);
             entrenadorRepository.actualizar(entrenador);
             club.actualizarEntrenador(entrenador);
+
+            // Actualiza la lista de entrenadores
+            entrenadores.set(entrenadores.indexOf(entrenador), entrenador);
+
             entrenadoresListView.setItems(entrenadores);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Éxito");
@@ -169,37 +173,35 @@ private void eliminarEntrenador() {
             alert2.setHeaderText("Entrenador eliminado");
             alert2.setContentText("El entrenador ha sido eliminado correctamente");
             alert2.showAndWait();
+            mostrarEntrenadores(); // Actualiza la lista de entrenadores
         }
     }
 }
 
-    @FXML
-    public void mostrarEntrenadores() {
-        entrenadores.clear();
-        List<Entrenador> entrenadoresList = club.obtenerEntrenadores();
-        entrenadoresListView.getItems().clear();
-        entrenadoresListView.setCellFactory(new Callback<ListView<Entrenador>, ListCell<Entrenador>>() {
-            @Override
-            public ListCell<Entrenador> call(ListView<Entrenador> param) {
-                return new ListCell<Entrenador>() {
-                    @Override
-                    protected void updateItem(Entrenador item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null) {
-                            setText("Nombre: " + item.getNombre() + ", Email: " + item.getEmail() + ", Id: "
-                                    + item.getId() + ", Especialidad: " + item.getEspecialidad().toString());
-                        } else {
-                            setText(null);
-                        }
+@FXML
+public void mostrarEntrenadores() {
+    entrenadores.clear();
+    List<Entrenador> entrenadoresList = club.obtenerEntrenadores();
+    entrenadores.addAll(entrenadoresList);
+    entrenadoresListView.setItems(entrenadores);
+    entrenadoresListView.setCellFactory(new Callback<ListView<Entrenador>, ListCell<Entrenador>>() {
+        @Override
+        public ListCell<Entrenador> call(ListView<Entrenador> param) {
+            return new ListCell<Entrenador>() {
+                @Override
+                protected void updateItem(Entrenador item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null) {
+                        setText("Nombre: " + item.getNombre() + ", Email: " + item.getEmail() + ", Id: "
+                                + item.getId() + ", Especialidad: " + item.getEspecialidad().toString());
+                    } else {
+                        setText(null);
                     }
-                };
-            }
-        });
-    
-        for (Entrenador entrenador : entrenadoresList) {
-            entrenadores.add(entrenador);
+                }
+            };
         }
-    }
+    });
+}
 
 }
 // ARREGKAR QUE NO SE ESTA GUARDANDO EN ENTRENADIR ESPECIALIDAD Y ID

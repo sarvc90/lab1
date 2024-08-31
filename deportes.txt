@@ -12,3 +12,8 @@ Equitacion,caballos,MEDIO
 Natacion,nadar,BAJO
 Futbol2,bolaa,BAJO
 Natacion2,nadar,MEDIO
+Futbol,patear pelota,BAJO
+Tenis,raqueta y pelota,BAJO
+baloncesto,deporte de equipo,MEDIO
+Futbol,Patear pelota,MEDIO
+Baloncesto,pelota,MEDIO

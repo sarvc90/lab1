@@ -1,8 +1,2 @@
-tenis,bola pequeña,ALTO
-Futbol,bola grande,BAJO
-baloncesto,balon,BAJO
-Danza,bailar,BAJO
-Equitacion,caballos 1,BAJO
-Natacion,nadar,BAJO
-Futbol2,bolaa,BAJO
-Natacion2,nadar,MEDIO
+Futbol,deporte de equipo,ALTO
+Baloncesto,pelota,MEDIO

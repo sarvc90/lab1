@@ -50,5 +50,9 @@ public class Entrenador extends Persona {
             }
         }
     }
+    @Override
+    public String toString() {
+        return getNombre();
+    }
 
 }
